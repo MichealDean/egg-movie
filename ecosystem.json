@@ -1,0 +1,20 @@
+{
+    // 应用名称
+    "name": "movies",
+    // 实际启动脚本
+    "script": "./index.js",
+    "cwd": "./",
+    // 错误日志路径
+    "error_file": "./logs/app-err.log",
+    // 普通日志路径
+    "out_file": "./logs/app-out.log"
+    //    "exec_mode": "cluster",
+    //    "instances": "max",
+    //    "env_prod": {
+    //         环境参数，当前指定为生产环境
+    //        "NODE_ENV": "production"
+    //    },
+    //    "env_test": {
+    //        "NODE_ENV": "development"
+    //    }
+}

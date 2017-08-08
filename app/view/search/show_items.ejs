@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <script
+            src="https://code.jquery.com/jquery-1.12.4.js"
+            integrity="sha256-Qw82+bXyGq6MydymqBxNPYTaUXXq7c8v3CwiYwLLNXU="
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div>
+    <ul id="result" style="list-style-type: none">
+        <% result.forEach(function (content) { %>
+        <li>
+            资源名称：<%= content.name %>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href=<%= content.url %>>点击下载</a>
+        </li>
+        <% }) %>
+    </ul>
+</div>
+</body>
+</html>

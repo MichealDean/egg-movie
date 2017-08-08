@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+</head>
+<script>
+    var csrftoken = $.cookie('csrfToken');
+    function csrfSafeMethod (method) {
+        return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+    }
+
+</script>
+<script>
+    var search = function () {
+        if ($('.searchContent').val() == '') {
+            return alert('搜索内容不能为空');
+        }
+        $('#content').html('');
+        $.ajax({
+            beforeSend: function (xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader('x-csrf-token', csrftoken)
+                }
+            },
+            type: 'get',
+            url: '/search/' + $('.searchContent').val(),
+            dataType: 'json',
+            success: function (data) {
+                if (data.status == 200) {
+                    if (data.result.length == 0) {
+                        return alert('未搜索到内容');
+                    }
+                    var result = data.result;
+                    for (var i = 0; i < result.length; i++) {
+                        $('#content').append(
+                            `<div>
+                            <ul style="list-style-type: none">
+                                <li style="float: left;width: 250px">
+                                    <a href=${result[i].href} target="_blank">
+                                        <img src=${result[i].img}
+                            style="width: 120px;height: 198px">
+                                    </a>
+                                    <p>
+                                        <a style="text-decoration: none;color: black" href=${result[i].href} target="_blank"
+                                title=${result[i].name}>&nbsp;&nbsp;&nbsp;&nbsp;${result[i].name}</a>
+                                    </p>
+                            </li>
+                            </ul>
+                        </div>`
+                        )
+                    }
+                } else if (data.status == 400) {
+                    alert('搜索内容不能为空');
+                } else {
+                    alert('服务器出错，请稍后重试');
+                }
+            },
+            fail: function (error) {
+                alert('服务器出错，请稍后重试');
+            }
+        })
+    }
+</script>
+<body>
+<div>
+    <input type="text" class="searchContent"/><input type="button" value="搜索" onclick="search()"/>
+</div>
+<div id="content">
+    <!--<div>
+        <ul style="list-style-type: none">
+            <li style="float: left;width: 250px">
+                <a href="http://127.0.0.1:3000/index" target="_blank">
+                    <img src="http://img3.doubanio.com/view/movie_poster_cover/lpst/public/p2215977240.jpg"
+                         style="width: 120px;height: 198px">
+                </a>
+                <p>
+                    <a style="text-decoration: none;color: black" href="http://127.0.0.1:3000/index" target="_blank"
+                       title="电影名称">&nbsp;&nbsp;&nbsp;&nbsp;电影名称</a>
+                </p>
+            </li>
+        </ul>
+    </div>-->
+</div>
+</body>
+</html>
